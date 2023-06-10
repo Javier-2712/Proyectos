@@ -1,0 +1,131 @@
+---
+title: "Referentes de Información para caudales ambientales"
+subtitle: "Proyecto Arroyo Bruno - Guajira"
+author: "Javier Rodríguez Barrios"
+date: 'Actualizado: `r Sys.Date()`'
+lang: "es-ES"
+format:
+  html:
+    toc: true
+    toc-title: Contents
+    toc-depth: 3
+    toc-location: left
+    html-math-method: katex
+    css: styles.css  
+    link-external-icon: true
+
+---
+
+![<n style='color:#1f78b4;'> Imágen tomada de *[LAYHONG](https://stock.adobe.com/co/contributor/208240173/layhong?load_type=author&prev_url=detail)* </n>](https://t3.ftcdn.net/jpg/05/91/77/82/240_F_591778293_LeXaffKPMMlfgqI7cIaU0ejrfuKRJdBs.jpg){width="90%"}
+
+
+<b style='color:#1f78b4;'>  **Requerimiento:** </b> Documento con el caudal ambiental para comunidades acuáticas (perifiton, macros y peces), vegetación riparia, basado en históricos de monitoreos y aplicando:
+  
+1. Indice de integridad del hábitat (IIH)
+
+2. Indice de integridad biótica (IIB)
+
+3. Indice de integridad biótica compuesto (IIB)
+
+De conformidad con lo que establece Resolución 759 del 14 de julio de 2014.
+
+
+
+
+
+## <b style='color:#1f78b4;'>  Resolución 759 de 2014  </b>
+
+1. [Fallo de sentencia contra Corpoguajira 2016 - ver página 14](https://www.consejodeestado.gov.co/wp-content/uploads/2017/01/PROTEGEN-DERECHO-A-CONSULTA-PREVIA-DE-COMUNIDAD-WAY%C3%9AU.pdf)
+
+
+## <b style='color:#1f78b4;'>  Referentes sobre el **Caudal Ambiental** </b>
+
+El caudal ambiental se refiere al caudal mínimo de agua que se requiere para mantener los procesos ecológicos en un río o cuerpo de agua determinado. 
+
+1. [Metodología para Caudal Ambientales - Web MADS - Actual](https://www.minambiente.gov.co/gestion-integral-del-recurso-hidrico/caudal-ambiental) Define que actualmente, este Ministerio adoptó la metodología para la estimación del caudal ambiental en el río Bogotá, a través de la resolución 2130 de 2019.
+
+2. [Resolución 2130 de 2019](https://www.minambiente.gov.co/wp-content/uploads/2021/10/12.-Anexo-12.-Resolucion-2130-de-2019-Metodologia-Caudal-Ambientalpdf.pdf) Por la cual se expide la metodología para la estimación del caudal ambiental en el río Bogotá.
+
+3. [Guía para caudales ambientales - Río Bogotá 2019](https://www.andi.com.co/Uploads/MET_CAUDAL_AMB_RB.pdf) Propuesta ajustada denominada “metodología para la estimación del caudal ambiental en el río Bogotá” **Propuesta adoptada por MADS** para caudales ambientales.
+
+4. [Metodología para Caudal Ambientales - Pinilla et al. 2014](http://www.scielo.org.co/pdf/abc/v19n1/v19n1a5.pdf) Propuesta metodológica para estimar los caudales ambientales en grandes proyectos licenciados por ANLA, resultado de un convenio entre MADS y la Universidad Nacional de Colombia, Bogotá.
+
+5. [Guía para caudales ambientales - Ideam 2017](https://acmineria.com.co/acm/wp-content/uploads/normativas/guia_ca_version_cp.pdf)
+
+6. [Guía para caudales ambientales - Minambiente 2013](https://www.anla.gov.co/documentos/ciudadania/03_partic_ciudadana/con-pub/Metodologia_Caudal_Ambiental.pdf)
+
+**Referentes Internacionals**
+
+7. [Decreto de la FAO para medir el caudal ecológico - 2015](https://www.fao.org/faolex/results/details/fr/c/LEX-FAOC142657)
+
+8. [Metodología de la FAO para medir el caudal ecológico - 2016](https://www.fao.org/faolex/results/details/es/c/LEX-FAOC158570)
+
+9. [Manual de la comisión europea 2015](https://circabc.europa.eu/sd/a/4063d635-957b-4b6f-bfd4-b51b0acb2570/Guidance%20No%2031%20-%20Ecological%20flows%20%28final%20version%29.pdf)
+
+10. [Metodologías para calcular el caudal ambiental - UNESCO](https://en.unesco.org/node/276181)
+
+
+
+
+## <b style='color:#1f78b4;'>  Referentes sobre el **Indice de integridad del hábitat (IIH o HII)**  </b>
+
+![<n style='color:#1f78b4;'> Imágen tomada de *[Kai Köpke]*(https://stock.adobe.com/co/contributor/211170170/kai-kopke?load_type=author&prev_url=detail) </n>](https://t4.ftcdn.net/jpg/05/83/97/65/240_F_583976585_1GPPFPjcJoGewSQR7biaWXFmTavq0zhK.jpg){width="90%"}
+
+
+Utilizado para evaluar la calidad de los hábitats naturales. Mide la cantidad de daño o alteración que ha sufrido un hábitat, y se basa en la presencia o ausencia de ciertas características clave del hábitat.
+
+1. [Guía para caudales ambientales p.12 - Minambiente 2013](https://www.anla.gov.co/documentos/ciudadania/03_partic_ciudadana/con-pub/Metodologia_Caudal_Ambiental.pdf)
+
+2. [HII en ríos del amazonas - base de datos Unimagdalena 2020](https://link-springer-com.biblioteca.unimagdalena.edu.co/article/10.1007/s10661-019-7667-x)
+
+3. [Metanálisis en ríos amazónicos 2020](https://www.sciencedirect.com/science/article/abs/pii/S1470160X20304325)
+
+ 
+
+
+## <b style='color:#1f78b4;'>  Referentes sobre índices de integridad biótica (IIB o IBI)  </b>
+
+![<n style='color:#1f78b4;'> Imágen tomada de *[Iryna](https://stock.adobe.com/co/contributor/207030067/iryna?load_type=author&prev_url=detail)* </n>](https://v.ftcdn.net/04/61/68/32/240_F_461683296_FPysOPanxlfOu4hdzLQwEhQ01bttoI3S_ST.mp4){width="80%"}
+
+Utilizado para evaluar la salud de la biota o comunidad biológica en un ecosistema. Mide la presencia y abundancia de diferentes especies y su relación con el hábitat en el que viven.
+
+
+1. [Ríos de China 2023](https://www.mdpi.com/2073-4441/15/6/1130)
+El índice de fitoplancton de integridad biótica (P-IBI), el índice de zooplancton de integridad biótica (Z-IBI) 
+y el índice microbiano de integridad biótica (M-IBI) que evaluaron el estado de salud del río Diannong
+
+2. [Manual EPA 2011](https://www.epa.gov/sites/default/files/2018-10/documents/primer-using-biological-assessments.pdf)
+Buscar Indices de integridad biótica (IBI) con maroinvertebrados (w benthic
+macroinvertebrate index of biotic integrity (IBI), (BMIBI)) y con peces (Fish Index of
+Biotic Integrity (FIBI)).
+
+3. [Klemm et al. 2003](https://cfpub.epa.gov/si/si_public_record_report.cfm?Lab=NERL&dirEntryId=65415)
+Uso de **macroinvertebrados** para el índice de integridad biótica (MBII)
+
+4. [Hill et al. 2000](https://cfpub.epa.gov/si/si_public_record_report.cfm?Lab=ORD&dirEntryId=14603)
+Uso del **Perifiton** para el índice de integridad biótica
+
+5. [Walters 2006](https://nepis.epa.gov/Exe/ZyPDF.cgi/P100ADTD.PDF?Dockey=P100ADTD.PDF)
+[Walters 2006 (2)](https://nepis.epa.gov/Exe/ZyNET.exe/P100ADTD.TXT?ZyActionD=ZyDocument&Client=EPA&Index=2006+Thru+2010&Docs=&Query=&Time=&EndTime=&SearchMethod=1&TocRestrict=n&Toc=&TocEntry=&QField=&QFieldYear=&QFieldMonth=&QFieldDay=&IntQFieldOp=0&ExtQFieldOp=0&XmlQuery=&File=D%3A%5Czyfiles%5CIndex%20Data%5C06thru10%5CTxt%5C00000025%5CP100ADTD.txt&User=ANONYMOUS&Password=anonymous&SortMethod=h%7C-&MaximumDocuments=1&FuzzyDegree=0&ImageQuality=r75g8/r75g8/x150y150g16/i425&Display=hpfr&DefSeekPage=x&SearchBack=ZyActionL&Back=ZyActionS&BackDesc=Results%20page&MaximumPages=1&ZyEntry=1&SeekPage=x&ZyPURL#)
+Uso de **peces** para el índice de integridad biótica
+
+5. [Fausch 1984](https://cfpub.epa.gov/si/si_public_record_report.cfm?Lab=ORD&dirEntryId=46631)
+Uso de **peces** para el índice de integridad biótica
+
+6. [Libro Measuring Biological Integrity: Lessons from Streams 1993 - está en biblioteca de Unimagdalena](https://www.taylorfrancis.com/chapters/edit/10.1201/9781003070542-7/measuring-biological-integrity-lessons-streams-james-karr)
+
+
+
+##  <b style='color:#1f78b4;'>  Referentes sobre índices de integridad biótica compuesta (IIBC  o IBI)  </b>
+
+![<n style='color:#1f78b4;'> Imágen tomada de *[Atstock Productions](https://stock.adobe.com/co/contributor/203405508/atstock-productions?load_type=author&prev_url=detail)* </n>](https://t3.ftcdn.net/jpg/01/90/18/20/240_F_190182089_kVJgPPov9cI0AJ84CdCVqVxx2a57928j.jpg){width="80%"}
+
+Combinación del IIH y el IBI, lo que proporciona una evaluación más completa de la salud del ecosistema en general. 
+
+
+##  <b style='color:#1f78b4;'>  Otros  </b>
+
+1. [ICA - Ideam](http://www.ideam.gov.co/documents/24155/125494/36-3.21_HM_Indice_calidad_agua_3_FI.pdf/9d28de9c-8b53-470e-82ab-daca2d0b0031)
+
+
+
