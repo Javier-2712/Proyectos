@@ -23,41 +23,6 @@ ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
 }
-
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-{ counter-reset: source-line 0; }
-pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-}
-pre.numberSource { margin-left: 3em; padding-left: 4px; }
-div.sourceCode
-{ }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -2585,23 +2550,6 @@ max-width: 450px !important;
 </header>
 
 
-<div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;R/funciones_iib.R&quot;</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>archivo_datos <span class="ot">&lt;-</span> <span class="st">&quot;data/raw/Informe_Fanny_Corregido_oct.18.xlsx&quot;</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-</div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2730,59 +2678,13 @@ max-width: 450px !important;
 <li><p><strong>Descargar datos ambientales para SWAT</strong> (<a href="https://javier-2712.github.io/Proyectos/2.proyecto.model.r.piedras/rch.xlsx">enlace.xlsx</a>)</p></li>
 </ul>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>macroinv_raw <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(archivo_datos, <span class="at">sheet =</span> <span class="st">&quot;Macroinv.&quot;</span>, <span class="at">skip =</span> <span class="dv">5</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># La hoja &quot;Macroinv.&quot; de Informe_Fanny_Corregido_oct.18.xlsx tiene 17 columnas,</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># una más que el Informe_Fanny.xlsx original: Fanny agregó &quot;Puntaje BMWP/Col&quot;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># (col. 14, con las fórmulas XLOOKUP/INDEX-MATCH) antes de &quot;Anotaciones&quot;. El</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># vector de nombres de abajo se verificó contra el archivo real (no solo de</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># memoria) para no repetir el desalineamiento de columnas que causó el primer</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># intento de render (&quot;Can&#39;t transform a data frame with NA or &quot;&quot; names&quot;).</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># No se usa esa columna aquí -el cruce con BMWP/Col se hace más abajo, en la</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># sección de métricas, uniendo por &quot;familia&quot; contra data/lookup/bmwp_col.csv-</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># pero el vector de nombres tiene que cubrir las 17 columnas reales para que</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># la asignación no quede desalineada.</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">ncol</span>(macroinv_raw) <span class="sc">==</span> <span class="dv">17</span>)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(macroinv_raw) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;fecha&quot;</span>, <span class="st">&quot;tramo&quot;</span>, <span class="st">&quot;sitio&quot;</span>, <span class="st">&quot;latitud&quot;</span>, <span class="st">&quot;longitud&quot;</span>, <span class="st">&quot;microhabitat&quot;</span>,</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;replica&quot;</span>, <span class="st">&quot;orden&quot;</span>, <span class="st">&quot;familia&quot;</span>, <span class="st">&quot;genero&quot;</span>, <span class="st">&quot;abundancia&quot;</span>,</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;abundancia_relativa&quot;</span>, <span class="st">&quot;grupo_funcional&quot;</span>, <span class="st">&quot;bmwp_col_raw&quot;</span>, <span class="st">&quot;anotaciones&quot;</span>,</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;col16&quot;</span>, <span class="st">&quot;abundancia_total_hoja&quot;</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>macroinv <span class="ot">&lt;-</span> macroinv_raw <span class="sc">%&gt;%</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">abundancia =</span> <span class="fu">as.numeric</span>(abundancia),</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">tramo =</span> <span class="fu">str_trim</span>(tramo)</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># El trim de tramo va ANTES del filtro: varias filas de esta hoja traen</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># &quot;Medio &quot; o &quot;Tramo &quot; con espacio final, y filtrar por %in% sobre el valor</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># crudo (sin trim) dejaba pasar una fila de encabezado repetida con</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># familia/abundancia no vacías -una de las causas del error de render.</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(familia), <span class="sc">!</span><span class="fu">is.na</span>(abundancia), tramo <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tramo =</span> <span class="fu">factor</span>(tramo, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(fecha, tramo, sitio, replica, microhabitat, orden, familia,</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>         genero, abundancia, grupo_funcional)</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>bmwp_lookup <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;data/lookup/bmwp_col.csv&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">familia =</span> <span class="fu">str_trim</span>(familia))</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>macroinv <span class="sc">%&gt;%</span> </span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(tramo, sitio, <span class="at">name =</span> <span class="st">&quot;n_registros&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">booktabs =</span> <span class="cn">TRUE</span>, <span class="at">longtable =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-tbl1" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tbl1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 1: Registros crudos disponibles por tramo y sitio
 </figcaption>
 <div aria-describedby="tbl-tbl1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -2837,21 +2739,13 @@ Importante
 </div>
 </div>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>macroinv <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">campana =</span> <span class="fu">if_else</span>(fecha <span class="sc">&lt;</span> <span class="fu">as.POSIXct</span>(<span class="st">&quot;2025-01-01&quot;</span>), <span class="st">&quot;1 (nov-dic 2024)&quot;</span>, <span class="st">&quot;2 (may 2025)&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(tramo, campana, <span class="at">name =</span> <span class="st">&quot;n_registros&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">booktabs =</span> <span class="cn">TRUE</span>, <span class="at">longtable =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-tbl2" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tbl2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 2: Registros por tramo y campaña — confirmación de que Bajo solo tiene campaña 1
 </figcaption>
 <div aria-describedby="tbl-tbl2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -2926,25 +2820,13 @@ Tabla 2: Registros por tramo y campaña — confirmación de que Bajo solo tien
 <section id="tabulación-por-tramo" class="level2">
 <h2 class="anchored" data-anchor-id="tabulación-por-tramo">Tabulación por tramo</h2>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tabla_familias <span class="ot">&lt;-</span> macroinv <span class="sc">%&gt;%</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(tramo, orden, familia, <span class="at">wt =</span> abundancia, <span class="at">name =</span> <span class="st">&quot;abundancia&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(tramo, <span class="fu">desc</span>(abundancia))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>tabla_familias  <span class="sc">%&gt;%</span> </span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(tramo) <span class="sc">%&gt;%</span>  </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(abundancia, <span class="at">n =</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span>  </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">booktabs =</span> <span class="cn">TRUE</span>, <span class="at">longtable =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-tbl3" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tbl3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 3: Cinco familias más abundantes por tramo
 </figcaption>
 <div aria-describedby="tbl-tbl3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -3060,22 +2942,10 @@ Tabla 3: Cinco familias más abundantes por tramo
 </div>
 </div>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>abundancia_replica <span class="ot">&lt;-</span> macroinv <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(tramo, replica, <span class="at">wt =</span> abundancia, <span class="at">name =</span> <span class="st">&quot;abundancia&quot;</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(abundancia_replica, <span class="fu">aes</span>(tramo, abundancia, <span class="at">fill =</span> tramo)) <span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">outlier.shape =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">width =</span> <span class="fl">0.12</span>, <span class="at">size =</span> <span class="dv">2</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span> <span class="ot">=</span> <span class="st">&quot;#e31a1c&quot;</span>, <span class="st">&quot;Medio&quot;</span> <span class="ot">=</span> <span class="st">&quot;#feb24c&quot;</span>, <span class="st">&quot;Alto&quot;</span> <span class="ot">=</span> <span class="st">&quot;#006837&quot;</span>), <span class="at">guide =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Abundancia total (individuos)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img role="img" src="data:image/png;base64,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" class="img-fluid figure-img" width="528"></p>
+<p><img role="img" src="data:image/png;base64,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" class="img-fluid figure-img" width="528"></p>
 <figcaption>Abundancia total por réplica dentro de cada tramo. Cada punto es una réplica de muestreo, no solo el promedio del tramo.</figcaption>
 </figure>
 </div>
@@ -3086,87 +2956,13 @@ Tabla 3: Cinco familias más abundantes por tramo
 <section id="sec-metricas" class="level2">
 <h2 class="anchored" data-anchor-id="sec-metricas">Métricas por tramo</h2>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ept_ordenes <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Ephemeroptera&quot;</span>, <span class="st">&quot;Plecoptera&quot;</span>, <span class="st">&quot;Trichoptera&quot;</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>metricas <span class="ot">&lt;-</span> macroinv <span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(tramo) <span class="sc">|&gt;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">TT  =</span> <span class="fu">n_distinct</span>(familia),</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">T_  =</span> <span class="fu">n_distinct</span>(familia[orden <span class="sc">==</span> <span class="st">&quot;Trichoptera&quot;</span>]),</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">D   =</span> <span class="fu">n_distinct</span>(familia[orden <span class="sc">==</span> <span class="st">&quot;Diptera&quot;</span>]),</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">E   =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(abundancia[orden <span class="sc">==</span> <span class="st">&quot;Ephemeroptera&quot;</span>]) <span class="sc">/</span> <span class="fu">sum</span>(abundancia),</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">EPT =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(abundancia[orden <span class="sc">%in%</span> ept_ordenes]) <span class="sc">/</span> <span class="fu">sum</span>(abundancia),</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">O   =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(abundancia[orden <span class="sc">==</span> <span class="st">&quot;Lumbriculida&quot;</span>]) <span class="sc">/</span> <span class="fu">sum</span>(abundancia),</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">R   =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(abundancia[grupo_funcional <span class="sc">==</span> <span class="st">&quot;CG&quot;</span>]) <span class="sc">/</span> <span class="fu">sum</span>(abundancia),</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Fl  =</span> <span class="fu">n_distinct</span>(genero[grupo_funcional <span class="sc">==</span> <span class="st">&quot;Ft&quot;</span>]),</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">abundancia_total =</span> <span class="fu">sum</span>(abundancia),</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">T =</span> T_)</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Abundancia por FAMILIA y tramo, cruzada con BMWP/Col — base de I y Tol.</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Una familia sin valor en el lookup se trata como BMWP/Col = 0 (ni intolerante</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># ni tolerante por defecto para I, pero SÍ cuenta como &quot;tolerante&quot; para Tol —</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co"># así lo hace la fórmula SUMPRODUCT/IFERROR del Excel de referencia, que esta</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co"># sección replica a propósito para no divergir; ver Regla de rigor #4 y #5).</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>macroinv_familia <span class="ot">&lt;-</span> macroinv <span class="sc">|&gt;</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(tramo, familia) <span class="sc">|&gt;</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">abundancia_familia =</span> <span class="fu">sum</span>(abundancia), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(bmwp_lookup, <span class="at">by =</span> <span class="st">&quot;familia&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">bmwp_col =</span> <span class="fu">coalesce</span>(bmwp_col, <span class="dv">0</span>))</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>metricas_bmwp <span class="ot">&lt;-</span> macroinv_familia <span class="sc">|&gt;</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(tramo) <span class="sc">|&gt;</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">I   =</span> <span class="fu">n_distinct</span>(familia[bmwp_col <span class="sc">&gt;=</span> <span class="dv">7</span> <span class="sc">&amp;</span> abundancia_familia <span class="sc">&gt;</span> <span class="dv">0</span>]),</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">Tol =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(abundancia_familia[bmwp_col <span class="sc">&lt;=</span> <span class="dv">3</span>]) <span class="sc">/</span> <span class="fu">sum</span>(abundancia_familia),</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">cobertura_bmwp =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(abundancia_familia[bmwp_col <span class="sc">&gt;</span> <span class="dv">0</span>]) <span class="sc">/</span> <span class="fu">sum</span>(abundancia_familia),</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>bmwp <span class="ot">&lt;-</span> macroinv <span class="sc">|&gt;</span></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(tramo) <span class="sc">|&gt;</span></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">bmwp_col_total =</span> <span class="fu">calcular_bmwp</span>(familia, bmwp_lookup), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>)</span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>metricas <span class="ot">&lt;-</span> metricas <span class="sc">|&gt;</span></span>
-<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(metricas_bmwp, <span class="at">by =</span> <span class="st">&quot;tramo&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(bmwp, <span class="at">by =</span> <span class="st">&quot;tramo&quot;</span>)</span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>etiquetas_metricas <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">TT  =</span> <span class="st">&quot;Taxones totales (TT)&quot;</span>,</span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">T   =</span> <span class="st">&quot;Taxones Trichoptera (T)&quot;</span>,</span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">D   =</span> <span class="st">&quot;Taxones Diptera (D)&quot;</span>,</span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>  <span class="at">E   =</span> <span class="st">&quot;% Ephemeroptera (E)&quot;</span>,</span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">EPT =</span> <span class="st">&quot;% EPT&quot;</span>,</span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">O   =</span> <span class="st">&quot;% Oligoquetos (O)&quot;</span>,</span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">I   =</span> <span class="st">&quot;Taxones intolerantes, BMWP/Col&gt;=7 (I)&quot;</span>,</span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">Tol =</span> <span class="st">&quot;% Taxones tolerantes, BMWP/Col&lt;=3 (Tol)&quot;</span>,</span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>  <span class="at">R   =</span> <span class="st">&quot;% Recolectores (R)&quot;</span>,</span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">Fl  =</span> <span class="st">&quot;Taxones filtradores (F)&quot;</span>,</span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">abundancia_total =</span> <span class="st">&quot;Abundancia total (individuos)&quot;</span>,</span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">cobertura_bmwp =</span> <span class="st">&quot;Cobertura del lookup BMWP/Col (%)&quot;</span>,</span>
-<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>  <span class="at">bmwp_col_total =</span> <span class="st">&quot;BMWP/Col (puntaje de tramo, informativo)&quot;</span></span>
-<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>metricas <span class="sc">|&gt;</span></span>
-<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">round</span>(x, <span class="dv">1</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>tramo, <span class="at">names_to =</span> <span class="st">&quot;metrica&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;valor&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">metrica =</span> <span class="fu">factor</span>(etiquetas_metricas[metrica], <span class="at">levels =</span> etiquetas_metricas)) <span class="sc">|&gt;</span></span>
-<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> tramo, <span class="at">values_from =</span> valor) <span class="sc">|&gt;</span></span>
-<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(metrica) <span class="sc">|&gt;</span></span>
-<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Métrica <span class="ot">=</span> metrica, Bajo, Medio, Alto) <span class="sc">|&gt;</span></span>
-<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">booktabs =</span> <span class="cn">TRUE</span>, <span class="at">longtable =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-tbl4" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tbl4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 4: Métricas de macroinvertebrados por tramo (Tabla 23, Pinilla et al. 2008)
 </figcaption>
 <div aria-describedby="tbl-tbl4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -3287,39 +3083,13 @@ Tabla 4: Métricas de macroinvertebrados por tramo (Tabla 23, Pinilla et al. 2
 </blockquote>
 <p>Por eso no había ninguna estandarización “oculta” que replicar. Con las tablas ya en mano, usarlas directamente es más defendible que la estandarización relativa: cada métrica recibe 0,2 / 0,6 / 1 según en qué franja cae su valor crudo, sin depender de cuántos tramos se muestrearon.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>puntajes <span class="ot">&lt;-</span> metricas <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    tramo,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">TT  =</span> <span class="fu">puntaje_tabla</span>(TT,  <span class="fu">c</span>(<span class="dv">9</span>, <span class="dv">22</span>),  <span class="st">&quot;mayor_mejor&quot;</span>),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">T   =</span> <span class="fu">puntaje_tabla</span>(T,   <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>),   <span class="st">&quot;mayor_mejor&quot;</span>),</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">D   =</span> <span class="fu">puntaje_tabla</span>(D,   <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">10</span>),  <span class="st">&quot;mayor_mejor&quot;</span>),</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">E   =</span> <span class="fu">puntaje_tabla</span>(E,   <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">20</span>),  <span class="st">&quot;mayor_mejor&quot;</span>),</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">EPT =</span> <span class="fu">puntaje_tabla</span>(EPT, <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">40</span>), <span class="st">&quot;mayor_mejor&quot;</span>),</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">O   =</span> <span class="fu">puntaje_tabla</span>(O,   <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>),   <span class="st">&quot;menor_mejor&quot;</span>),</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">I   =</span> <span class="fu">puntaje_tabla</span>(I,   <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">8</span>),   <span class="st">&quot;mayor_mejor&quot;</span>),</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Tol =</span> <span class="fu">puntaje_tabla</span>(Tol, <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">50</span>), <span class="st">&quot;menor_mejor&quot;</span>),</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">R   =</span> <span class="fu">puntaje_tabla</span>(R,   <span class="fu">c</span>(<span class="dv">13</span>, <span class="dv">31</span>), <span class="st">&quot;mayor_mejor&quot;</span>),</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Fl  =</span> <span class="fu">puntaje_tabla</span>(Fl,  <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>),   <span class="st">&quot;mayor_mejor&quot;</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>puntajes <span class="sc">|&gt;</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>tramo, <span class="at">names_to =</span> <span class="st">&quot;metrica&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;valor&quot;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">metrica =</span> <span class="fu">factor</span>(etiquetas_metricas[metrica], <span class="at">levels =</span> etiquetas_metricas)) <span class="sc">|&gt;</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> tramo, <span class="at">values_from =</span> valor) <span class="sc">|&gt;</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(metrica) <span class="sc">|&gt;</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Métrica <span class="ot">=</span> metrica, Bajo, Medio, Alto) <span class="sc">|&gt;</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">booktabs =</span> <span class="cn">TRUE</span>, <span class="at">longtable =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-tbl5" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tbl5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 5: Puntaje absoluto (0,2 / 0,6 / 1) por métrica y tramo — Tabla 23
 </figcaption>
 <div aria-describedby="tbl-tbl5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -3403,28 +3173,13 @@ Tabla 5: Puntaje absoluto (0,2 / 0,6 / 1) por métrica y tramo — Tabla 23
 <h2 class="anchored" data-anchor-id="iib-de-macroinvertebrados-por-tramo">IIB de macroinvertebrados por tramo</h2>
 <p><code>IIBMacroin = (TT + T + D + %E + %EPT + %O + I + Tol + %CG + Ft) / 10</code>, las 10 métricas literales de la Tabla 23 de Pinilla et al. (2008), clasificado según la Tabla 24 de la propuesta 2008 (0-0,3 baja · 0,31-0,6 moderada · 0,61-1 alta — la misma escala que usan las Tablas 19 y 29 para perifiton y peces, así que sirve igual para los tres). El índice de Hilsenhoff que llevaban las versiones anteriores de este documento se descartó junto con el VT genuino (ver el callout de la sección anterior).</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>iib_macroinv <span class="ot">&lt;-</span> puntajes <span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">iib_macroinv =</span> <span class="fu">mean</span>(<span class="fu">c_across</span>(TT<span class="sc">:</span>Fl), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">clase =</span> <span class="fu">clasificar_iib</span>(iib_macroinv))</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>iib_macroinv <span class="sc">|&gt;</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tramo, iib_macroinv, clase) <span class="sc">|&gt;</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">iib_macroinv =</span> <span class="fu">round</span>(iib_macroinv, <span class="dv">2</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Tramo&quot;</span>, <span class="st">&quot;IIB Macroinvertebrados&quot;</span>, <span class="st">&quot;Clase&quot;</span>),</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">booktabs =</span> <span class="cn">TRUE</span>, <span class="at">longtable =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-tbl6" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tbl6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 6: IIB de macroinvertebrados por tramo
 </figcaption>
 <div aria-describedby="tbl-tbl6-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -3458,16 +3213,6 @@ Tabla 6: IIB de macroinvertebrados por tramo
 </div>
 </div>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iib_macroinv, <span class="fu">aes</span>(tramo, iib_macroinv, <span class="at">fill =</span> clase)) <span class="sc">+</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;grey60&quot;</span>) <span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">color_semaforo</span>(<span class="fu">levels</span>(iib_macroinv<span class="sc">$</span>clase)), <span class="at">drop =</span> <span class="cn">FALSE</span>, <span class="at">name =</span> <span class="st">&quot;Clase&quot;</span>) <span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;IIB Macroinvertebrados (0-1)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -3489,43 +3234,13 @@ Tabla 6: IIB de macroinvertebrados por tramo
 <p><strong>Abundancia (Ab) se excluye del promedio final</strong>: Carvalho y Gerson (2007) -la misma fuente ya citada- descartaron explícitamente el número total de individuos como métrica del IBI “porque no difirió significativamente entre las muestras, ni presentó correlación con el IBI”. Se deja como dato descriptivo, no puntuable -otro cambio frente a la versión anterior de este documento, que sí la promediaba-.</p>
 <p>A diferencia de vegetación de ribera, aquí se agrupan <strong>ambas campañas</strong> (nov-dic 2024 y may 2025): el tramo Alto solo tiene un registro utilizable en la primera campaña, insuficiente para cualquier métrica de riqueza.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>peces_raw <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(archivo_datos, <span class="at">sheet =</span> <span class="st">&quot;Peces&quot;</span>, <span class="at">skip =</span> <span class="dv">1</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">ncol</span>(peces_raw) <span class="sc">==</span> <span class="dv">16</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(peces_raw) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;fecha&quot;</span>, <span class="st">&quot;sitio&quot;</span>, <span class="st">&quot;tramo&quot;</span>, <span class="st">&quot;muestra&quot;</span>, <span class="st">&quot;orden&quot;</span>, <span class="st">&quot;familia&quot;</span>, <span class="st">&quot;genero&quot;</span>, <span class="st">&quot;especie&quot;</span>,</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;abundancia&quot;</span>, <span class="st">&quot;aleta_caudal&quot;</span>, <span class="st">&quot;habito_migratorio&quot;</span>, <span class="st">&quot;microhabitat&quot;</span>, <span class="st">&quot;posicion_bucal&quot;</span>,</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;tolerancia&quot;</span>, <span class="st">&quot;gremio_trofico&quot;</span>, <span class="st">&quot;comentario_gremio&quot;</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>peces <span class="ot">&lt;-</span> peces_raw <span class="sc">%&gt;%</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tramo =</span> <span class="fu">str_trim</span>(tramo), <span class="at">genero =</span> <span class="fu">str_trim</span>(genero)) <span class="sc">%&gt;%</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Trim antes de filtrar, mismo motivo que en macroinv: hay una fila de</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># encabezado repetida (&quot;Tramo&quot;) que !is.na(genero) no excluye por sí sola.</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(genero), genero <span class="sc">!=</span> <span class="st">&quot;N/A&quot;</span>, tramo <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">tramo =</span> <span class="fu">factor</span>(tramo, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>)),</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">habito_migratorio =</span> <span class="fu">str_trim</span>(habito_migratorio),</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">gremio_trofico =</span> <span class="fu">str_trim</span>(gremio_trofico),</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">tolerancia =</span> <span class="fu">str_trim</span>(tolerancia),</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">abundancia =</span> <span class="fu">as.numeric</span>(abundancia)</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>peces <span class="sc">%&gt;%</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(tramo, <span class="at">name =</span> <span class="st">&quot;n_registros&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">booktabs =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-peces1" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-peces1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 7: Registros de peces disponibles por tramo (ambas campañas)
 </figcaption>
 <div aria-describedby="tbl-peces1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -3555,45 +3270,13 @@ Tabla 7: Registros de peces disponibles por tramo (ambas campañas)
 </div>
 </div>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>metricas_peces <span class="ot">&lt;-</span> peces <span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(tramo) <span class="sc">%&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Ab    =</span> <span class="fu">sum</span>(abundancia),</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Riq   =</span> <span class="fu">n_distinct</span>(genero),</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Herb  =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(abundancia[gremio_trofico <span class="sc">==</span> <span class="st">&quot;Herbívoro&quot;</span>]) <span class="sc">/</span> <span class="fu">sum</span>(abundancia),</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">Omn   =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(abundancia[gremio_trofico <span class="sc">==</span> <span class="st">&quot;Omnívoro&quot;</span>]) <span class="sc">/</span> <span class="fu">sum</span>(abundancia),</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Cat   =</span> <span class="fu">n_distinct</span>(genero[habito_migratorio <span class="sc">==</span> <span class="st">&quot;Catádromo&quot;</span>]),</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">CatPc =</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fu">sum</span>(abundancia[habito_migratorio <span class="sc">==</span> <span class="st">&quot;Catádromo&quot;</span>]) <span class="sc">/</span> <span class="fu">sum</span>(abundancia),</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sens  =</span> <span class="fu">n_distinct</span>(genero[tolerancia <span class="sc">==</span> <span class="st">&quot;Sensible&quot;</span>]),</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>etiquetas_peces <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">Ab =</span> <span class="st">&quot;Abundancia (Ab)&quot;</span>, <span class="at">Riq =</span> <span class="st">&quot;Riqueza (Riq)&quot;</span>,</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">Herb =</span> <span class="st">&quot;% individuos Herbívoros (%Herb)&quot;</span>, <span class="at">Omn =</span> <span class="st">&quot;% individuos Omnívoros (%Omn)&quot;</span>,</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">Cat =</span> <span class="st">&quot;Riqueza de catádromos (Cat)&quot;</span>, <span class="at">CatPc =</span> <span class="st">&quot;% individuos catádromos (%Cat)&quot;</span>,</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sens =</span> <span class="st">&quot;Riqueza de taxones sensibles (Sens)&quot;</span></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>metricas_peces <span class="sc">%&gt;%</span></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">round</span>(x, <span class="dv">1</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>tramo, <span class="at">names_to =</span> <span class="st">&quot;metrica&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;valor&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">metrica =</span> <span class="fu">factor</span>(etiquetas_peces[metrica], <span class="at">levels =</span> etiquetas_peces)) <span class="sc">%&gt;%</span></span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> tramo, <span class="at">values_from =</span> valor) <span class="sc">%&gt;%</span></span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(metrica) <span class="sc">%&gt;%</span></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Métrica <span class="ot">=</span> metrica, Bajo, Medio, Alto) <span class="sc">%&gt;%</span></span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">booktabs =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-peces2" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-peces2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 8: Métricas de peces por tramo (Pinto y Araujo 2007 / Romero 2018)
 </figcaption>
 <div aria-describedby="tbl-peces2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -3655,43 +3338,13 @@ Tabla 8: Métricas de peces por tramo (Pinto y Araujo 2007 / Romero 2018)
 </div>
 </div>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Riq, Cat, Sens se dividen por el total de familias DOCUMENTADAS (7/4/3), no por</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># el máximo observado en el estudio -replica exactamente la hoja IIBPeces del</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Excel de referencia (fórmulas =C24/7, =C25/4, =C26/3). Riq puede superar</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># nominalmente 1 si en un tramo aparecen más de 7 géneros a la vez (hay 8</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># géneros documentados en total, no 7) -inconsistencia menor ya presente en el</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Excel de referencia, señalada aquí en vez de corregida en silencio (no ocurre</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># con los datos actuales, pero podría con datos futuros).</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>puntajes_peces <span class="ot">&lt;-</span> metricas_peces <span class="sc">%&gt;%</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    tramo,</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Riq   =</span> Riq <span class="sc">/</span> <span class="dv">7</span>,</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">Cat   =</span> Cat <span class="sc">/</span> <span class="dv">4</span>,</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sens  =</span> Sens <span class="sc">/</span> <span class="dv">3</span>,</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Herb  =</span> <span class="fu">puntaje_tabla</span>(Herb,  <span class="fu">c</span>(<span class="fl">33.33</span>, <span class="fl">66.67</span>), <span class="st">&quot;mayor_mejor&quot;</span>),</span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">Omn   =</span> <span class="fu">puntaje_tabla</span>(Omn,   <span class="fu">c</span>(<span class="fl">33.33</span>, <span class="fl">66.67</span>), <span class="st">&quot;menor_mejor&quot;</span>),</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">CatPc =</span> <span class="fu">puntaje_tabla</span>(CatPc, <span class="fu">c</span>(<span class="fl">33.33</span>, <span class="fl">66.67</span>), <span class="st">&quot;mayor_mejor&quot;</span>)</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>puntajes_peces <span class="sc">%&gt;%</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>tramo, <span class="at">names_to =</span> <span class="st">&quot;metrica&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;valor&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">metrica =</span> <span class="fu">factor</span>(etiquetas_peces[metrica], <span class="at">levels =</span> etiquetas_peces)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> tramo, <span class="at">values_from =</span> valor) <span class="sc">%&gt;%</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(metrica) <span class="sc">%&gt;%</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Métrica <span class="ot">=</span> metrica, Bajo, Medio, Alto) <span class="sc">%&gt;%</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">round</span>(x, <span class="dv">3</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">booktabs =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-peces3" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-peces3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 9: Puntaje absoluto de peces por tramo (reescalado sobre pool documentado: 7 familias, 4 catádromas, 3 sensibles)
 </figcaption>
 <div aria-describedby="tbl-peces3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -3747,27 +3400,13 @@ Tabla 9: Puntaje absoluto de peces por tramo (reescalado sobre pool documentado
 </div>
 </div>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>iib_peces <span class="ot">&lt;-</span> puntajes_peces <span class="sc">%&gt;%</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">iib_peces =</span> <span class="fu">mean</span>(<span class="fu">c_across</span>(Riq<span class="sc">:</span>CatPc), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">clase =</span> <span class="fu">clasificar_iib</span>(iib_peces))</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>iib_peces <span class="sc">%&gt;%</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tramo, iib_peces, clase) <span class="sc">%&gt;%</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">iib_peces =</span> <span class="fu">round</span>(iib_peces, <span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Tramo&quot;</span>, <span class="st">&quot;IIB Peces&quot;</span>, <span class="st">&quot;Clase&quot;</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-peces4" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-peces4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 10: IIB de peces por tramo (promedio de las 6 métricas puntuables; Abundancia se excluye)
 </figcaption>
 <div aria-describedby="tbl-peces4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -3807,45 +3446,13 @@ Tabla 10: IIB de peces por tramo (promedio de las 6 métricas puntuables; Abund
 <p>La hoja <code>Perifiton</code> del Excel ya trae, para cada género de diatomea observado, su gremio ecológico según Rimet y Bouchez (2012) (bajo perfil, alto perfil o móvil) y su tolerancia. El índice se construye <strong>solo con los 11 géneros de diatomeas documentados en el estudio</strong> -las cianobacterias y algas verdes quedan como información descriptiva- y se agrupan <strong>ambas campañas</strong> de muestreo (nov-dic 2024 y may 2025) para maximizar el número de géneros observado por tramo. Rimet y Bouchez (2012) es un catálogo taxonómico, no un índice: no trae umbrales numéricos como la Tabla 18 de Pinilla (2008).</p>
 <p>La versión anterior de este documento reescalaba, para cada tramo, el <strong>% de los géneros de ese mismo tramo</strong> que caían en cada gremio -una medida de composición relativa, distinta de lo que hace el Excel de referencia. Esta versión replica en cambio el método del Excel: se cuenta, por tramo, cuántos géneros de cada categoría están <strong>presentes</strong> (riqueza, no composición), y ese conteo se divide por el <strong>total de géneros de esa categoría documentados en todo el estudio</strong> (pool fijo: 11 diatomeas en total, 6 sensibles, 3 de bajo perfil, 5 móviles, 3 de alto perfil) -el mismo criterio de “pool documentado, no mínimo/máximo de los 3 tramos” que ya se usa en macroinvertebrados (BMWP/Col) y peces (familias documentadas). El sentido de la tendencia también cambia para dos métricas: Móvil y Alto perfil aumentan con el deterioro, así que su puntaje se invierte (<code>1 - conteo/total</code>).</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>perif_raw <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(archivo_datos, <span class="at">sheet =</span> <span class="st">&quot;Perifiton&quot;</span>, <span class="at">skip =</span> <span class="dv">3</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">ncol</span>(perif_raw) <span class="sc">==</span> <span class="dv">13</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(perif_raw) <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;fecha&quot;</span>, <span class="st">&quot;tramo&quot;</span>, <span class="st">&quot;sitio&quot;</span>, <span class="st">&quot;latitud&quot;</span>, <span class="st">&quot;longitud&quot;</span>, <span class="st">&quot;microhabitat&quot;</span>, <span class="st">&quot;replica&quot;</span>,</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;grupo&quot;</span>, <span class="st">&quot;orden&quot;</span>, <span class="st">&quot;familia&quot;</span>, <span class="st">&quot;genero&quot;</span>, <span class="st">&quot;tolerancia&quot;</span>, <span class="st">&quot;gremio&quot;</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>perif <span class="ot">&lt;-</span> perif_raw <span class="sc">%&gt;%</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tramo =</span> <span class="fu">str_trim</span>(tramo), <span class="at">genero =</span> <span class="fu">str_trim</span>(genero)) <span class="sc">%&gt;%</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Trim antes de filtrar, mismo motivo que en macroinv/peces: hay una fila de</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># encabezado repetida (&quot;Tramo &quot;, con espacio) que !is.na(genero) no excluye</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># por sí sola -esta hoja además trae &quot;Medio &quot; con espacio final en los datos</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># reales, no solo en la fila de encabezado.</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(genero), tramo <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">tramo =</span> <span class="fu">factor</span>(tramo, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>)),</span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">grupo =</span> <span class="fu">str_trim</span>(grupo),</span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">tolerancia =</span> <span class="fu">str_trim</span>(tolerancia),</span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">gremio =</span> <span class="fu">str_trim</span>(gremio)</span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>perif_diatomeas <span class="ot">&lt;-</span> perif <span class="sc">%&gt;%</span> <span class="fu">filter</span>(grupo <span class="sc">==</span> <span class="st">&quot;Diatomea&quot;</span>)</span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>perif_diatomeas <span class="sc">%&gt;%</span></span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(tramo, <span class="at">name =</span> <span class="st">&quot;n_registros&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">booktabs =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-perif1" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-perif1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 11: Registros de perifiton disponibles por tramo (ambas campañas, solo diatomeas)
 </figcaption>
 <div aria-describedby="tbl-perif1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -3875,44 +3482,13 @@ Tabla 11: Registros de perifiton disponibles por tramo (ambas campañas, solo d
 </div>
 </div>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>metricas_perif <span class="ot">&lt;-</span> perif_diatomeas <span class="sc">%&gt;%</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(tramo) <span class="sc">%&gt;%</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_generos   =</span> <span class="fu">n_distinct</span>(genero),</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sensibles   =</span> <span class="fu">n_distinct</span>(genero[tolerancia <span class="sc">==</span> <span class="st">&quot;Sensible&quot;</span>]),</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">bajo_perfil =</span> <span class="fu">n_distinct</span>(genero[gremio <span class="sc">==</span> <span class="st">&quot;Bajo perfil&quot;</span>]),</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">movil       =</span> <span class="fu">n_distinct</span>(genero[gremio <span class="sc">==</span> <span class="st">&quot;Móvil&quot;</span>]),</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">alto_perfil =</span> <span class="fu">n_distinct</span>(genero[gremio <span class="sc">==</span> <span class="st">&quot;Alto perfil&quot;</span>]),</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>etiquetas_perif <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">n_generos =</span> <span class="st">&quot;Riqueza de diatomeas (Géneros) — pool: 11&quot;</span>,</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">sensibles =</span> <span class="st">&quot;Taxones sensibles (Géneros) — pool: 6&quot;</span>,</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">bajo_perfil =</span> <span class="st">&quot;Bajo perfil (Géneros) — pool: 3&quot;</span>,</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">movil =</span> <span class="st">&quot;Móvil (Géneros) — pool: 5&quot;</span>,</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">alto_perfil =</span> <span class="st">&quot;Alto perfil (Géneros) — pool: 3&quot;</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>metricas_perif <span class="sc">%&gt;%</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">round</span>(x, <span class="dv">1</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>tramo, <span class="at">names_to =</span> <span class="st">&quot;metrica&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;valor&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">metrica =</span> <span class="fu">factor</span>(etiquetas_perif[metrica], <span class="at">levels =</span> etiquetas_perif)) <span class="sc">%&gt;%</span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> tramo, <span class="at">values_from =</span> valor) <span class="sc">%&gt;%</span></span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(metrica) <span class="sc">%&gt;%</span></span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Métrica <span class="ot">=</span> metrica, Bajo, Medio, Alto) <span class="sc">%&gt;%</span></span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">booktabs =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-perif2" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-perif2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 12: Riqueza de diatomeas por gremio ecológico y tramo (conteo de géneros presentes, Rimet y Bouchez 2012)
 </figcaption>
 <div aria-describedby="tbl-perif2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -3962,35 +3538,13 @@ Tabla 12: Riqueza de diatomeas por gremio ecológico y tramo (conteo de género
 </div>
 </div>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>puntajes_perif <span class="ot">&lt;-</span> metricas_perif <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    tramo,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_generos   =</span> n_generos <span class="sc">/</span> <span class="dv">11</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sensibles   =</span> sensibles <span class="sc">/</span> <span class="dv">6</span>,</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">bajo_perfil =</span> bajo_perfil <span class="sc">/</span> <span class="dv">3</span>,</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">movil       =</span> <span class="dv">1</span> <span class="sc">-</span> (movil <span class="sc">/</span> <span class="dv">5</span>),</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">alto_perfil =</span> <span class="dv">1</span> <span class="sc">-</span> (alto_perfil <span class="sc">/</span> <span class="dv">3</span>)</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>puntajes_perif <span class="sc">%&gt;%</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>tramo, <span class="at">names_to =</span> <span class="st">&quot;metrica&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;valor&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">metrica =</span> <span class="fu">factor</span>(etiquetas_perif[metrica], <span class="at">levels =</span> etiquetas_perif)) <span class="sc">%&gt;%</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> tramo, <span class="at">values_from =</span> valor) <span class="sc">%&gt;%</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(metrica) <span class="sc">%&gt;%</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Métrica <span class="ot">=</span> metrica, Bajo, Medio, Alto) <span class="sc">%&gt;%</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">round</span>(x, <span class="dv">3</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">booktabs =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-perif3" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-perif3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 13: Puntaje absoluto de perifiton por tramo (conteo de géneros / pool documentado: 11, 6, 3, 5, 3)
 </figcaption>
 <div aria-describedby="tbl-perif3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -4040,27 +3594,13 @@ Tabla 13: Puntaje absoluto de perifiton por tramo (conteo de géneros / pool do
 </div>
 </div>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>iib_perif <span class="ot">&lt;-</span> puntajes_perif <span class="sc">%&gt;%</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">iib_perif =</span> <span class="fu">mean</span>(<span class="fu">c_across</span>(n_generos<span class="sc">:</span>alto_perfil), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">clase =</span> <span class="fu">clasificar_iib</span>(iib_perif))</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>iib_perif <span class="sc">%&gt;%</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tramo, iib_perif, clase) <span class="sc">%&gt;%</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">iib_perif =</span> <span class="fu">round</span>(iib_perif, <span class="dv">2</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Tramo&quot;</span>, <span class="st">&quot;IIB Perifiton&quot;</span>, <span class="st">&quot;Clase&quot;</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-perif4" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-perif4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 14: IIB de perifiton por tramo
 </figcaption>
 <div aria-describedby="tbl-perif4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -4099,29 +3639,13 @@ Tabla 14: IIB de perifiton por tramo
 <h2 class="anchored" data-anchor-id="sec-iib-vegetacion">IIB de vegetación de ribera</h2>
 <p>La hoja <code>Vegetacion</code> del Excel ya trae el Índice de Calidad de Riberas (RQI/IQR, González del Tánago et al. 2006) ajustado por tramo (Tabla 1.2 de esa hoja), con <strong>un único muestreo por tramo</strong> (nov. 2024) — no hay una segunda campaña de vegetación de ribera, así que no aplica una comparación por periodo como en los otros tres componentes. El RQI/IQR oscila entre 10 (peor estado) y 120 (mejor estado); se reescala a 0-1 sobre ese rango teórico fijo -no sobre el rango observado en los tres tramos, para mantener el carácter absoluto del puntaje-.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>rqi_tabla <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  archivo_datos, <span class="at">sheet =</span> <span class="st">&quot;Vegetacion&quot;</span>,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">range =</span> <span class="st">&quot;H16:K27&quot;</span>, <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">&quot;atributo&quot;</span>, <span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(atributo <span class="sc">!=</span> <span class="st">&quot;Total&quot;</span>)</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>rqi_total <span class="ot">&lt;-</span> rqi_tabla <span class="sc">%&gt;%</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">c</span>(Bajo, Medio, Alto), <span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">as.numeric</span>(.x)))) <span class="sc">%&gt;%</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">&quot;tramo&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;rqi&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tramo =</span> <span class="fu">factor</span>(tramo, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>)))</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>rqi_total <span class="sc">%&gt;%</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Tramo&quot;</span>, <span class="st">&quot;RQI/IQR total&quot;</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-veg1" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-veg1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 15: RQI/IQR ajustado por tramo (Tabla 1.2, hoja Vegetacion)
 </figcaption>
 <div aria-describedby="tbl-veg1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -4151,37 +3675,13 @@ Tabla 15: RQI/IQR ajustado por tramo (Tabla 1.2, hoja Vegetacion)
 </div>
 </div>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>rqi_min <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>rqi_max <span class="ot">&lt;-</span> <span class="dv">120</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>iib_veg <span class="ot">&lt;-</span> rqi_total <span class="sc">%&gt;%</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">iib_veg =</span> (rqi <span class="sc">-</span> rqi_min) <span class="sc">/</span> (rqi_max <span class="sc">-</span> rqi_min),</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">interpretacion_rqi =</span> <span class="fu">case_when</span>(</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>      rqi <span class="sc">&gt;=</span> <span class="dv">100</span> <span class="sc">~</span> <span class="st">&quot;Muy bueno&quot;</span>,</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>      rqi <span class="sc">&gt;=</span> <span class="dv">80</span>  <span class="sc">~</span> <span class="st">&quot;Bueno&quot;</span>,</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>      rqi <span class="sc">&gt;=</span> <span class="dv">60</span>  <span class="sc">~</span> <span class="st">&quot;Regular&quot;</span>,</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>      rqi <span class="sc">&gt;=</span> <span class="dv">40</span>  <span class="sc">~</span> <span class="st">&quot;Pobre&quot;</span>,</span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span>       <span class="sc">~</span> <span class="st">&quot;Muy pobre&quot;</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">clase =</span> <span class="fu">clasificar_iib</span>(iib_veg)</span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>iib_veg <span class="sc">%&gt;%</span></span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">iib_veg =</span> <span class="fu">round</span>(iib_veg, <span class="dv">3</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tramo, rqi, iib_veg, interpretacion_rqi, clase) <span class="sc">%&gt;%</span></span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Tramo&quot;</span>, <span class="st">&quot;RQI/IQR&quot;</span>, <span class="st">&quot;IIBveg (0-1)&quot;</span>, <span class="st">&quot;Interpretación (RQI, Tabla 1)&quot;</span>, <span class="st">&quot;Clase (Pinilla, 3 franjas)&quot;</span>), <span class="at">booktabs =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-veg2" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-veg2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 16: IIB de vegetación de ribera por tramo — dos lecturas de interpretación, ver nota abajo
 </figcaption>
 <div aria-describedby="tbl-veg2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -4241,36 +3741,13 @@ Nota
 <h2 class="anchored" data-anchor-id="sec-iib-comp">IIB compuesto (IIBComp)</h2>
 <p><code>IIBComp = IIBMacroin·FP + IIBPeces·FP + IIBPerif·FP + IIBVegRib·FP</code>, con los cuatro <code>FP</code> declarados como parámetros del documento (ver el aviso al inicio) y clasificado según la Tabla 30 de Pinilla (2008) -una escala de 4 franjas, distinta de la de sus componentes: 0-0,2 pobre · 0,21-0,5 baja · 0,51-0,8 moderada · 0,8-1 alta.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>iib_comp <span class="ot">&lt;-</span> iib_macroinv <span class="sc">%&gt;%</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tramo, iib_macroinv) <span class="sc">%&gt;%</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(iib_peces <span class="sc">%&gt;%</span> <span class="fu">select</span>(tramo, iib_peces), <span class="at">by =</span> <span class="st">&quot;tramo&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(iib_perif <span class="sc">%&gt;%</span> <span class="fu">select</span>(tramo, iib_perif), <span class="at">by =</span> <span class="st">&quot;tramo&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(iib_veg <span class="sc">%&gt;%</span> <span class="fu">select</span>(tramo, iib_veg), <span class="at">by =</span> <span class="st">&quot;tramo&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">iib_comp =</span> iib_macroinv <span class="sc">*</span> params<span class="sc">$</span>fp_macroinv <span class="sc">+</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>               iib_peces    <span class="sc">*</span> params<span class="sc">$</span>fp_peces    <span class="sc">+</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>               iib_perif    <span class="sc">*</span> params<span class="sc">$</span>fp_perif    <span class="sc">+</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>               iib_veg      <span class="sc">*</span> params<span class="sc">$</span>fp_veg,</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">clase =</span> <span class="fu">clasificar_iib_comp</span>(iib_comp)</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>iib_comp <span class="sc">%&gt;%</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">round</span>(x, <span class="dv">2</span>))) <span class="sc">%&gt;%</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(</span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Tramo&quot;</span>, <span class="st">&quot;Macroinv.&quot;</span>, <span class="st">&quot;Peces&quot;</span>, <span class="st">&quot;Perifiton&quot;</span>, <span class="st">&quot;Vegetación&quot;</span>, <span class="st">&quot;IIBComp&quot;</span>, <span class="st">&quot;Clase&quot;</span>),</span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">booktabs =</span> <span class="cn">TRUE</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-comp1" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-comp1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 17: IIB compuesto por tramo
 </figcaption>
 <div aria-describedby="tbl-comp1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -4320,24 +3797,6 @@ Tabla 17: IIB compuesto por tramo
 </div>
 </div>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>iib_comp_largo <span class="ot">&lt;-</span> iib_comp <span class="sc">%&gt;%</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tramo, <span class="at">Macroinvertebrados =</span> iib_macroinv, <span class="at">Peces =</span> iib_peces,</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">Perifiton =</span> iib_perif, Vegetación <span class="ot">=</span> iib_veg) <span class="sc">%&gt;%</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>tramo, <span class="at">names_to =</span> <span class="st">&quot;componente&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;iib&quot;</span>)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(iib_comp_largo, <span class="fu">aes</span>(tramo, iib, <span class="at">fill =</span> componente)) <span class="sc">+</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.75</span>), <span class="at">width =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> iib_comp, <span class="fu">aes</span>(tramo, iib_comp, <span class="at">fill =</span> <span class="cn">NULL</span>),</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape =</span> <span class="dv">23</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">fill =</span> <span class="st">&quot;black&quot;</span>, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.8</span>), <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;grey60&quot;</span>) <span class="sc">+</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;IIB (0-1)&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;Componente&quot;</span>) <span class="sc">+</span></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -4386,52 +3845,13 @@ Tabla 17: IIB compuesto por tramo
 </div>
 </div>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>archivo_swat <span class="ot">&lt;-</span> <span class="st">&quot;data/raw/rch.xlsx&quot;</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>swat_rch <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(archivo_swat, <span class="at">sheet =</span> <span class="st">&quot;rch&quot;</span>)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>swat_nov_dic_2024 <span class="ot">&lt;-</span> swat_rch <span class="sc">%&gt;%</span> </span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(SUB <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">9</span>), YEAR <span class="sc">==</span> <span class="dv">2024</span>, MON <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">11</span>, <span class="dv">12</span>))</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>swat_agg <span class="ot">&lt;-</span> swat_nov_dic_2024 <span class="sc">%&gt;%</span> </span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(SUB) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">area_km2         =</span> <span class="fu">first</span>(AREAkm2),</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">caudal_prom_cms  =</span> <span class="fu">mean</span>(FLOW_OUTcms),</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">sedimento_ton    =</span> <span class="fu">sum</span>(SED_OUTtons),</span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_organico_kg    =</span> <span class="fu">sum</span>(ORGN_OUTkg),</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_organico_kg    =</span> <span class="fu">sum</span>(ORGP_OUTkg),</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">no3_kg           =</span> <span class="fu">sum</span>(NO3_OUTkg),</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">nh4_kg           =</span> <span class="fu">sum</span>(NH4_OUTkg),</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_total_kg       =</span> <span class="fu">sum</span>(TOT_Nkg),</span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_total_kg       =</span> <span class="fu">sum</span>(TOT_Pkg),</span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">sedimento_ton_km2 =</span> sedimento_ton <span class="sc">/</span> area_km2,</span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_total_kg_km2    =</span> n_total_kg <span class="sc">/</span> area_km2,</span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_total_kg_km2    =</span> p_total_kg <span class="sc">/</span> area_km2</span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>swat_agg <span class="sc">%&gt;%</span> </span>
-<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(SUB, area_km2, caudal_prom_cms, sedimento_ton, sedimento_ton_km2,</span>
-<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>         n_total_kg, n_total_kg_km2, p_total_kg, p_total_kg_km2) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">round</span>(x, <span class="dv">1</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">booktabs =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Sub&quot;</span>, <span class="st">&quot;Área (km²)&quot;</span>, <span class="st">&quot;Q (cms)&quot;</span>, <span class="st">&quot;Sed (t)&quot;</span>, <span class="st">&quot;Sed (t/km²)&quot;</span>,</span>
-<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;N (kg)&quot;</span>, <span class="st">&quot;N (kg/km²)&quot;</span>, <span class="st">&quot;P (kg)&quot;</span>, <span class="st">&quot;P (kg/km²)&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>, <span class="at">font_size =</span> <span class="dv">12</span>,</span>
-<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>                <span class="at">latex_options =</span> <span class="fu">c</span>(<span class="st">&quot;basic&quot;</span>, <span class="st">&quot;scale_down&quot;</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-tbl7" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tbl7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Tabla 18: Salidas SWAT agregadas por subcuenca, nov-dic 2024 (subcuencas 4, 8 y 9)
 </figcaption>
 <div aria-describedby="tbl-tbl7-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
+<div class="cell-output-display" data-html-table-processing="none">
 <table class=" lightable-classic" style="font-size: 12px; font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -4491,45 +3911,6 @@ Tabla 18: Salidas SWAT agregadas por subcuenca, nov-dic 2024 (subcuencas 4, 8 y
 <p>El caudal se promedia entre los dos meses (es una tasa, no un acumulado); sedimentos y nutrientes se suman (son cargas mensuales, sí acumulables). <code>sedimento_ton_km2</code>, <code>n_total_kg_km2</code> y <code>p_total_kg_km2</code> normalizan por área de drenaje, que varía bastante entre las tres subcuencas (<a href="#tbl-tbl7" class="quarto-xref">Tabla 18</a>) y por eso los totales crudos no son directamente comparables entre tramos. La tabla impresa omite el desglose intermedio (<code>n_organico_kg</code>, <code>p_organico_kg</code>, <code>no3_kg</code>, <code>nh4_kg</code>) por espacio — sigue disponible en <code>swat_agg</code> y en el CSV exportado más abajo.</p>
 <p>El crosswalk tramo-subcuenca es el mismo de la sección de datos de entrada, ahora como objeto de R para poder unirlo:</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>crosswalk_swat <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">tramo      =</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span>, <span class="st">&quot;Medio&quot;</span>, <span class="st">&quot;Alto&quot;</span>)),</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sitio_swat =</span> <span class="fu">c</span>(<span class="st">&quot;Los Naranjos&quot;</span>, <span class="st">&quot;La Lisa&quot;</span>, <span class="st">&quot;Bocatoma + Finca Atinkana&quot;</span>),</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">SUB        =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">9</span>)</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>cruce_iib_swat <span class="ot">&lt;-</span> crosswalk_swat <span class="sc">%&gt;%</span> </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(swat_agg, <span class="at">by =</span> <span class="st">&quot;SUB&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    metricas <span class="sc">%&gt;%</span> <span class="fu">select</span>(tramo, TT, EPT, abundancia_total),</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">&quot;tramo&quot;</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    iib_comp <span class="sc">%&gt;%</span> <span class="fu">select</span>(tramo, iib_macroinv, iib_peces, iib_perif, iib_veg, iib_comp, clase),</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">&quot;tramo&quot;</span></span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(iib_comp, clase, <span class="at">.after =</span> sitio_swat)</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>cruce_iib_swat <span class="sc">%&gt;%</span> </span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tramo, sitio_swat, iib_comp, clase, iib_macroinv, iib_peces, iib_perif, iib_veg,</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>         sedimento_ton_km2, n_total_kg_km2, p_total_kg_km2) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">sitio_swat =</span> <span class="fu">recode</span>(sitio_swat, <span class="st">&quot;Bocatoma + Finca Atinkana&quot;</span> <span class="ot">=</span> <span class="st">&quot;Bocatoma/Atinkana&quot;</span>),</span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">round</span>(x, <span class="dv">2</span>))</span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kbl</span>(<span class="at">booktabs =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">&quot;Tramo&quot;</span>, <span class="st">&quot;Sitio&quot;</span>, <span class="st">&quot;IIBComp&quot;</span>, <span class="st">&quot;Clase&quot;</span>, <span class="st">&quot;Macroinv.&quot;</span>, <span class="st">&quot;Peces&quot;</span>, <span class="st">&quot;Perif.&quot;</span>, <span class="st">&quot;Veg.&quot;</span>,</span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;Sed (t/km²)&quot;</span>, <span class="st">&quot;N (kg/km²)&quot;</span>, <span class="st">&quot;P (kg/km²)&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>, <span class="at">font_size =</span> <span class="dv">8</span>,</span>
-<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>                <span class="at">latex_options =</span> <span class="fu">c</span>(<span class="st">&quot;basic&quot;</span>, <span class="st">&quot;scale_down&quot;</span>))</span>
-<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="fu">dir.create</span>(<span class="st">&quot;data/processed&quot;</span>, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>, <span class="at">recursive =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(cruce_iib_swat, <span class="st">&quot;data/processed/cruce_iib_swat_nov_dic_2024.csv&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div id="tbl-tbl8" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-tbl8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -4537,64 +3918,65 @@ Tabla 19: Cruce IIBComp (puntaje absoluto) x variables SWAT por tramo (nov-dic 
 </figcaption>
 <div aria-describedby="tbl-tbl8-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="lightable-classic cell caption-top table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">Tramo</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Sitio</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">IIBComp</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Clase</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Macroinv.</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Peces</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Perif.</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Veg.</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">Sed (t/km²)</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">N (kg/km²)</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">P (kg/km²)</th>
-</tr>
-</thead>
+<table class=" lightable-classic" style="font-size: 8px; font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Tramo </th>
+   <th style="text-align:left;"> Sitio </th>
+   <th style="text-align:right;"> IIBComp </th>
+   <th style="text-align:left;"> Clase </th>
+   <th style="text-align:right;"> Macroinv. </th>
+   <th style="text-align:right;"> Peces </th>
+   <th style="text-align:right;"> Perif. </th>
+   <th style="text-align:right;"> Veg. </th>
+   <th style="text-align:right;"> Sed (t/km²) </th>
+   <th style="text-align:right;"> N (kg/km²) </th>
+   <th style="text-align:right;"> P (kg/km²) </th>
+  </tr>
+ </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: left;">Bajo</td>
-<td style="text-align: left;">Los Naranjos</td>
-<td style="text-align: right;">0.70</td>
-<td style="text-align: left;">Moderada</td>
-<td style="text-align: right;">0.76</td>
-<td style="text-align: right;">0.93</td>
-<td style="text-align: right;">0.53</td>
-<td style="text-align: right;">0.58</td>
-<td style="text-align: right;">1016.79</td>
-<td style="text-align: right;">124.89</td>
-<td style="text-align: right;">26.89</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Medio</td>
-<td style="text-align: left;">La Lisa</td>
-<td style="text-align: right;">0.55</td>
-<td style="text-align: left;">Moderada</td>
-<td style="text-align: right;">0.68</td>
-<td style="text-align: right;">0.62</td>
-<td style="text-align: right;">0.53</td>
-<td style="text-align: right;">0.37</td>
-<td style="text-align: right;">5059.72</td>
-<td style="text-align: right;">103.82</td>
-<td style="text-align: right;">25.26</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Alto</td>
-<td style="text-align: left;">Bocatoma/Atinkana</td>
-<td style="text-align: right;">0.73</td>
-<td style="text-align: left;">Moderada</td>
-<td style="text-align: right;">0.88</td>
-<td style="text-align: right;">0.64</td>
-<td style="text-align: right;">0.60</td>
-<td style="text-align: right;">0.77</td>
-<td style="text-align: right;">21.40</td>
-<td style="text-align: right;">105.21</td>
-<td style="text-align: right;">26.77</td>
-</tr>
+  <tr>
+   <td style="text-align:left;"> Bajo </td>
+   <td style="text-align:left;"> Los Naranjos </td>
+   <td style="text-align:right;"> 0.70 </td>
+   <td style="text-align:left;"> Moderada </td>
+   <td style="text-align:right;"> 0.76 </td>
+   <td style="text-align:right;"> 0.93 </td>
+   <td style="text-align:right;"> 0.53 </td>
+   <td style="text-align:right;"> 0.58 </td>
+   <td style="text-align:right;"> 1016.79 </td>
+   <td style="text-align:right;"> 124.89 </td>
+   <td style="text-align:right;"> 26.89 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Medio </td>
+   <td style="text-align:left;"> La Lisa </td>
+   <td style="text-align:right;"> 0.55 </td>
+   <td style="text-align:left;"> Moderada </td>
+   <td style="text-align:right;"> 0.68 </td>
+   <td style="text-align:right;"> 0.62 </td>
+   <td style="text-align:right;"> 0.53 </td>
+   <td style="text-align:right;"> 0.37 </td>
+   <td style="text-align:right;"> 5059.72 </td>
+   <td style="text-align:right;"> 103.82 </td>
+   <td style="text-align:right;"> 25.26 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Alto </td>
+   <td style="text-align:left;"> Bocatoma/Atinkana </td>
+   <td style="text-align:right;"> 0.73 </td>
+   <td style="text-align:left;"> Moderada </td>
+   <td style="text-align:right;"> 0.88 </td>
+   <td style="text-align:right;"> 0.64 </td>
+   <td style="text-align:right;"> 0.60 </td>
+   <td style="text-align:right;"> 0.77 </td>
+   <td style="text-align:right;"> 21.40 </td>
+   <td style="text-align:right;"> 105.21 </td>
+   <td style="text-align:right;"> 26.77 </td>
+  </tr>
 </tbody>
 </table>
+
 </div>
 </div>
 </figure>
@@ -4619,15 +4001,6 @@ Tabla 19: Cruce IIBComp (puntaje absoluto) x variables SWAT por tramo (nov-dic 
 </div>
 </div>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cruce_iib_swat, <span class="fu">aes</span>(tramo, sedimento_ton_km2, <span class="at">fill =</span> tramo)) <span class="sc">+</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>() <span class="sc">+</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Bajo&quot;</span> <span class="ot">=</span> <span class="st">&quot;#e31a1c&quot;</span>, <span class="st">&quot;Medio&quot;</span> <span class="ot">=</span> <span class="st">&quot;#feb24c&quot;</span>, <span class="st">&quot;Alto&quot;</span> <span class="ot">=</span> <span class="st">&quot;#006837&quot;</span>), <span class="at">guide =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;Sedimento (ton/km², escala log)&quot;</span>) <span class="sc">+</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -4638,17 +4011,6 @@ Tabla 19: Cruce IIBComp (puntaje absoluto) x variables SWAT por tramo (nov-dic 
 </div>
 </div>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>cruce_iib_swat <span class="sc">%&gt;%</span> </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(tramo, n_total_kg_km2, p_total_kg_km2) <span class="sc">%&gt;%</span> </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>tramo, <span class="at">names_to =</span> <span class="st">&quot;variable&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;valor&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="fu">recode</span>(variable, <span class="at">n_total_kg_km2 =</span> <span class="st">&quot;N total&quot;</span>, <span class="at">p_total_kg_km2 =</span> <span class="st">&quot;P total&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(tramo, valor, <span class="at">fill =</span> variable)) <span class="sc">+</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>, <span class="at">width =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">&quot;kg / km²&quot;</span>, <span class="at">fill =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -4660,18 +4022,6 @@ Tabla 19: Cruce IIBComp (puntaje absoluto) x variables SWAT por tramo (nov-dic 
 </div>
 <p>Las dos figuras anteriores muestran cada variable por separado; la siguiente las junta para ver el patrón de una vez: IIBComp contra presión de sedimento, por tramo.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Código</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(cruce_iib_swat, <span class="fu">aes</span>(sedimento_ton_km2, iib_comp, <span class="at">color =</span> clase)) <span class="sc">+</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> tramo), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">1.3</span>, <span class="at">size =</span> <span class="fl">4.2</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">color_semaforo_comp</span>(<span class="fu">levels</span>(cruce_iib_swat<span class="sc">$</span>clase)),</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">drop =</span> <span class="cn">FALSE</span>, <span class="at">name =</span> <span class="st">&quot;Clase IIBComp&quot;</span>) <span class="sc">+</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Sedimento (ton/km², escala log)&quot;</span>, <span class="at">y =</span> <span class="st">&quot;IIB compuesto&quot;</span>) <span class="sc">+</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">12</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
